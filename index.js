@@ -23,23 +23,27 @@ class Moves {
       this.args.length < 3 ||
       new Set(this.args).size !== this.args.length
     ) {
-      throw new Error('Moves must be non-repeating and odd in number');
+      return console.log('Moves must be non-repeating and odd in number');
+    } else {
+      console.log('Hmac:', `${hmacKey}`);
+      console.log(' Available moves: ');
+      this.args.forEach((element, index) =>
+        console.log(` ${index + 1} - ${element}`)
+      );
+
+      console.log('0 - exit');
+      console.log('? - help');
+      startGame.startGame();
+      startGame.determineWinner();
     }
-
-    console.log('Hmac:', `${hmacKey}`);
-    console.log(' Available moves: ');
-
-    this.args.forEach((element, index) =>
-      console.log(` ${index + 1} - ${element}`)
-    );
-    console.log('0 - exit');
-    console.log('? - help');
   }
 }
 
 class HelpTabel {
   generateTable(args) {
-    const table = [[' ', ...args]];
+
+
+    const table = [['Exit', ...args]];
     for (let i = 0; i < args.length; i++) {
       const row = [args[i]];
       for (let j = 0; j < args.length; j++) {
@@ -80,7 +84,7 @@ class PlayGame {
   }
   determineWinner() {
     if (this.userIndex > moves.args.length) {
-      throw new Error('there is no this move');
+      return console.log('there is no this move');
     }
 
     if (this.computerMove === this.userMove) {
@@ -95,6 +99,7 @@ class PlayGame {
     } else {
       console.log('You win');
     }
+
     if (this.userIndex === '?') {
       const table = generateTable.generateTable(moves.args);
       console.table(table);
@@ -102,7 +107,7 @@ class PlayGame {
 
     console.log(`your move: ${this.userMove}`);
     console.log(`computer move: ${this.computerMove}`);
-    console.log(`key: ${secretKey}`); 
+    console.log(`key: ${secretKey}`);
   }
 }
 
@@ -117,7 +122,3 @@ const hmacKey = keysGenerator.generateHmac(computerMove.toString(), secretKey);
 
 moves.generateMoves();
 startGame.generateComputerMove();
-startGame.startGame();
-startGame.determineWinner();
-
-
